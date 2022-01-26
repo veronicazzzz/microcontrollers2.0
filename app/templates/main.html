@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="container-fluid w-75">
+        <canvas id="myCanvas"></canvas>
+    </div>
+    <script>
+        var ctx = document.getElementById('myCanvas');
+
+        var myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: [],
+                datasets: [{
+                    data: [],
+                    label: 'Temerature',
+                    borderColor: "rgb(60,186,159)",
+                    backgroundColor: "rgb(60,186,159, 0.3)",
+                    fill: true,
+                    tension: 0.4,
+                }]
+            },
+            options: {
+                responsive: true,
+                title: {
+                    display: true,
+                    text: "Temp",
+                },
+                legend: {
+                    display: true
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true,
+                        }
+                    }]
+                }
+            }
+        });
+
+        var getData = function() {
+            $.ajax({
+                url: '/update',
+                success: function(data) {
+                    myChart.data.labels = data['time'];
+                    myChart.data.datasets[0].data = data['temp'];
+
+                    myChart.update();
+                }
+            });
+        };
+
+        setInterval(getData, 1000);
+    </script>
+{% endblock %}
