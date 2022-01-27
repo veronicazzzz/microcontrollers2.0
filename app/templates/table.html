@@ -65,90 +65,70 @@
     }
 
 </script>
-<div class="container">
-    <div class="row" style="padding:50px;">
-        <p>
-        <h1>Live Editable Table using Python Flask Mysql and Jquery Ajax</h1>
-        </p>
-        <table width='100%' border='0'>
-            <tr>
-                <th width='10%'>ID</th>
-                <th width='10%'>Temp</th>
-                <th width='10%'>Humidity</th>
-                <th width='10%'>Smoke</th>
-                <th width='10%'>CO2</th>
-                <th width='20%'>Time</th>
-                <th width='5%'>Delete</th>
-            </tr>
-            {% for row in data %}
-            <tr>
-                <td>{{row.id}}</td>
-                <td>
-                    <div class='edit'> {{row.temp}} </div>
-                    <input type='text' class='txtedit' value='{{row.temp}}' id='temp_{{row.id}}'>
-                </td>
-                <td>
-                    <div class='edit'> {{row.humidity}} </div>
-                    <input type='text' class='txtedit' value='{{row.humidity}}' id='humidity_{{row.id}}'>
-                </td>
-                <td>
-                    <div class='edit'> {{row.smoke}} </div>
-                    <input type='text' class='txtedit' value='{{row.smoke}}' id='smoke_{{row.id}}'>
-                </td>
-                <td>
-                    <div class='edit'> {{row.co}} </div>
-                    <input type='text' class='txtedit' value='{{row.co}}' id='co_{{row.id}}'>
-                </td>
-                <td>
-                    <div> {{row.time}} </div>
-                </td>
-                <td>
-                    <button id='{{row.id}}' type="button" onclick=deleteData(this)
-                        class="btn btn-danger">Delete</button>
-                </td>
-            </tr>
-            {% endfor %}
-        </table>
+<div class="col-lg-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Bordered table</h4>
+            <div class="table-responsive pt-3">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>
+                                #
+                            </th>
+                            <th>
+                                Температура
+                            </th>
+                            <th>
+                                Влажность
+                            </th>
+                            <th>
+                                Концентрация газов
+                            </th>
+                            <th>
+                                Концентрация CO2
+                            </th>
+                            <th>
+                                Время
+                            </th>
+                            <th>
+                                Удалить
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in data %}
+                        <tr>
+                            <td>{{row.id}}</td>
+                            <td>
+                                <div class='edit'> {{row.temp}} </div>
+                                <input type='text' class='txtedit' value='{{row.temp}}' id='temp_{{row.id}}'>
+                            </td>
+                            <td>
+                                <div class='edit'> {{row.humidity}} </div>
+                                <input type='text' class='txtedit' value='{{row.humidity}}' id='humidity_{{row.id}}'>
+                            </td>
+                            <td>
+                                <div class='edit'> {{row.smoke}} </div>
+                                <input type='text' class='txtedit' value='{{row.smoke}}' id='smoke_{{row.id}}'>
+                            </td>
+                            <td>
+                                <div class='edit'> {{row.co}} </div>
+                                <input type='text' class='txtedit' value='{{row.co}}' id='co_{{row.id}}'>
+                            </td>
+                            <td>
+                                <div> {{row.time}} </div>
+                            </td>
+                            <td>
+                                <button id='{{row.id}}' type="button" onclick=deleteData(this)
+                                    class="btn btn-danger">Delete</button>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </div>
-<style>
-    .edit {
-        width: 100%;
-        height: 25px;
-    }
-
-    .editMode {
-        border: 1px solid black;
-    }
-
-    table {
-        border: 3px solid lavender;
-        border-radius: 3px;
-    }
-
-    table tr:nth-child(1) {
-        background-color: #4285f4;
-    }
-
-    table tr:nth-child(1) th {
-        color: white;
-        padding: 10px 0px;
-        letter-spacing: 1px;
-    }
-
-    table td {
-        padding: 10px;
-    }
-
-    table tr:nth-child(even) {
-        background-color: lavender;
-        color: black;
-    }
-
-    .txtedit {
-        display: none;
-        width: 99%;
-        height: 30px;
-    }
-</style>
 {% endblock %}
