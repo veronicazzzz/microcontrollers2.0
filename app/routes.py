@@ -1,4 +1,3 @@
-from datetime import datetime
 from flask import request, render_template, redirect, url_for, flash, jsonify
 from flask_login import login_required, login_user, logout_user, current_user
 from werkzeug.security import check_password_hash
@@ -9,7 +8,6 @@ from . import app, db
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    
     form = forms.Login()
 
     if current_user.is_authenticated:
@@ -17,6 +15,7 @@ def index():
 
     if request.method == 'POST' and form.validate_on_submit():
         login, password = form.data['login'], form.data['password']
+        
         user = db.session.query(User).filter_by(login=login).first()
 
         if user and check_password_hash(user.password, password):
@@ -37,6 +36,7 @@ def main():
 
 
 @app.route('/update', methods=['GET', 'POST'])
+@login_required
 def update():
     q = db.session.query(Info).all()
 
@@ -59,6 +59,7 @@ def table():
     return render_template('table.html', data=data)
 
 @app.route('/updatedb', methods=['GET', 'POST'])
+@login_required
 def get_table():
     if request.method == 'POST':
         delete = request.form.get('delete')
@@ -85,9 +86,22 @@ def get_table():
         success = 1
 
     return jsonify(success)
-    
-#http://127.0.0.1:5000/getdata?temp=1&co=1&humidity=1&smoke=1
+
+
+@app.route('/getlast')
+@login_required
+def get_last():
+    obj =  db.session.query(Info).order_by(Info.id.desc()).first()
+    return  jsonify({
+        'temp': obj.temp,
+        'humidity': obj.humidity,
+        'smoke': obj.smoke,
+        'co': obj.co
+    })
+
+
 @app.route('/getdata')
+@login_required
 def get_data():
     db.session.add(Info(**request.args))
     db.session.commit()
